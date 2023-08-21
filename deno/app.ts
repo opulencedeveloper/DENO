@@ -9,8 +9,6 @@ const app = new Application();
 
 app.use(async (ctx, next) => {
   console.log("Middleware!");
-  //here we await the next middle ware to finish its async process
-  //you add this if the next middlware in-line is async
   await next();
 });
 

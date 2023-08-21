@@ -5,14 +5,13 @@ import { getDb } from '../helpers/db_client.ts';
 
 const router = new Router();
 
-//model type definition
 interface Todo {
   id?: string;
   text: string;
 }
 
 router.get('/todos', async (ctx) => {
-  const todos = await getDb().collection('todos').find(); // { _id: ObjectId(), text: '...' }[]
+  const todos = await getDb().collection('todos').find();
   const transformedTodos = todos.map(
     (todo: { _id: ObjectId; text: string }) => {
       return { id: todo._id.$oid, text: todo.text };
@@ -29,7 +28,6 @@ router.post('/todos', async (ctx) => {
   };
 
   const id = await getDb().collection('todos').insertOne(newTodo);
-//"$oid" is that id converted from ObjectId to a String
   newTodo.id = id.$oid;
 
   ctx.response.body = { message: 'Created todo!', todo: newTodo };
